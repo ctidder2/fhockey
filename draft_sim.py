@@ -3,6 +3,8 @@ from collections import defaultdict
 from league import YLeagueSettings
 from roto_importer import create_players_from_projections
 from strategies.random_strategy import RandomPickStrategy
+from strategies.points_heavy import PointsHeavyStrategy
+from random import choice
 
 NUM_TEAMS = 12
 NUM_ROUNDS = 16
@@ -10,8 +12,10 @@ NUM_ROUNDS = 16
 def init_teams(players, league_settings):
     """Returns a list of teams (initialized Strategy objects)."""
     teams = []
+    strategy_types = [PointsHeavyStrategy, RandomPickStrategy]
     for id in xrange(NUM_TEAMS):
-        teams.append(RandomPickStrategy(id, players, league_settings))
+        strategy_type = choice(strategy_types)
+        teams.append(strategy_type(id, players, league_settings))
 
     return teams
 
@@ -53,8 +57,8 @@ def simulate_draft():
         drafted_players.append(picked_player)
         rosters[picking_team_id].append(picked_player)
         notify_all_teams_of_pick(teams, picking_team_id, picked_player)
-    return rosters
+    return teams, rosters
 
-rosters = simulate_draft()
-for i, roster in enumerate(rosters.iteritems()):
-    print i, roster[1]
+teams, rosters = simulate_draft()
+for roster in rosters.iteritems():
+    print teams[roster[0]], roster[1]

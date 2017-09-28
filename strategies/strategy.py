@@ -1,5 +1,3 @@
-
-
 class Strategy:
     """Base class for a strategy. Strategies must implement these functions."""
 
