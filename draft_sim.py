@@ -1,7 +1,8 @@
 from collections import defaultdict
+
 from league import YLeagueSettings
 from roto_importer import create_players_from_projections
-from strategy import RandomPickStrategy
+from strategies.random_strategy import RandomPickStrategy
 
 NUM_TEAMS = 12
 NUM_ROUNDS = 16
