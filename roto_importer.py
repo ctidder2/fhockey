@@ -56,5 +56,3 @@ def create_players_from_projections(f='projections.csv'):
 
             players.append(player)
     return players
-
-print create_players_from_projections()[0].stats

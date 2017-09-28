@@ -8,5 +8,8 @@ class Player:
         self.games_played = 0
         self.stats = dict()
 
+    def name(self):
+        return ' '.join([self.first_name, self.last_name])
+
     def __repr__(self):
-        return '"' + self.first_name + ' ' + self.last_name + ' ' + self.team + '"'
+        return '"' + self.name() + ' ' + self.team + '"'
