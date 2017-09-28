@@ -1,6 +1,5 @@
 import csv
-from enums import SkaterCategory
-from enums import Position
+from enums import ImportCategory, Position
 from player import Player
 
 def skip_header(projections_reader):
@@ -10,23 +9,23 @@ def skip_header(projections_reader):
     projections_reader.next()
 
 _row_pos_to_skater_cat = {
-    4: SkaterCategory.GOAL,
-    5: SkaterCategory.ASSIST,
-    6: SkaterCategory.PLUS_MINUS,
-    7: SkaterCategory.PENALTY_MINUTES,
-    8: SkaterCategory.POWER_PLAY_GOAL,
-    9: SkaterCategory.POWER_PLAY_ASSIST,
-    10: SkaterCategory.SHORT_HANDED_GOAL,
-    11: SkaterCategory.SHORT_HANDED_ASSIST,
-    12: SkaterCategory.SHOT,
-    13: SkaterCategory.HIT,
-    14: SkaterCategory.BLOCK,
-    15: SkaterCategory.GAME_WINNING_GOAL,
-    17: SkaterCategory.WIN,
-    20: SkaterCategory.SHUT_OUT,
-    21: SkaterCategory.GOALS_AGAINST,
-    22: SkaterCategory.SAVES,
-    23: SkaterCategory.GOALS_AGAINST_AVERAGE,
+    4: ImportCategory.GOAL,
+    5: ImportCategory.ASSIST,
+    6: ImportCategory.PLUS_MINUS,
+    7: ImportCategory.PENALTY_MINUTES,
+    8: ImportCategory.POWER_PLAY_GOAL,
+    9: ImportCategory.POWER_PLAY_ASSIST,
+    10: ImportCategory.SHORT_HANDED_GOAL,
+    11: ImportCategory.SHORT_HANDED_ASSIST,
+    12: ImportCategory.SHOT,
+    13: ImportCategory.HIT,
+    14: ImportCategory.BLOCK,
+    15: ImportCategory.GAME_WINNING_GOAL,
+    17: ImportCategory.WIN,
+    20: ImportCategory.SHUT_OUT,
+    21: ImportCategory.GOALS_AGAINST,
+    22: ImportCategory.SAVES,
+    23: ImportCategory.GOALS_AGAINST_AVERAGE,
 }
 
 _pos_str_to_pos_enum = {

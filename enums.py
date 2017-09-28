@@ -1,4 +1,18 @@
-class SkaterCategory:
+class LeagueCategory:
+    """Categories used by leagues for scoring."""
+    GOAL = 0
+    ASSIST = 1
+    PLUS_MINUS = 2
+    PENALTY_MINUTES = 3
+    POWER_PLAY_POINT = 4
+    SHOT = 5
+    WIN = 6
+    GOALS_AGAINST_AVERAGE = 7
+    SAVE_PERCENTAGE = 8
+    SHUT_OUT = 9
+
+class ImportCategory:
+    """Categories found in raw data."""
     GOAL = 0
     ASSIST = 1
     PLUS_MINUS = 2

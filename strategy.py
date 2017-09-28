@@ -2,8 +2,13 @@ from random import choice
 
 class Strategy:
 
-    def __init__(self, players_available):
-        """Players available is a list of players available to the draft."""
+    def __init__(self, team_id, players_available, league_settings):
+        """Object used to determine what players to pick.
+
+        :param team_id: int this strategies team id
+        :param players_available: list of players_available for the draft
+        :param league_settings a LeagueSettings object
+        """
         pass
 
     def notify(self, f_team, player):
@@ -17,9 +22,10 @@ class Strategy:
 
 class RandomPickStrategy(Strategy):
 
-    def __init__(self, players_available, team_id):
+    def __init__(self, team_id, players_available, league_settings):
         self.players_available = set(players_available)
         self.team_id = team_id
+        self.league_settings = league_settings
 
 
     def notify(self, team_id, player):

@@ -1,15 +1,16 @@
 from collections import defaultdict
+from league import YLeagueSettings
 from roto_importer import create_players_from_projections
 from strategy import RandomPickStrategy
 
 NUM_TEAMS = 12
 NUM_ROUNDS = 16
 
-def init_teams(players):
+def init_teams(players, league_settings):
     """Returns a list of teams (initialized Strategy objects)."""
     teams = []
     for id in xrange(NUM_TEAMS):
-        teams.append(RandomPickStrategy(players, id))
+        teams.append(RandomPickStrategy(id, players, league_settings))
 
     return teams
 
@@ -30,7 +31,7 @@ def set_draft_order():
 
 def simulate_draft():
     players = create_players_from_projections()
-    teams = init_teams(players)
+    teams = init_teams(players, YLeagueSettings)
     draft_order = set_draft_order()
 
     available_players = set(players)
