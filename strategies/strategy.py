@@ -8,7 +8,9 @@ class Strategy:
         :param players_available: list of players_available for the draft
         :param league_settings a LeagueSettings object
         """
-        pass
+        self.players_available = set(players_available)
+        self.team_id = team_id
+        self.league_settings = league_settings
 
     def notify(self, f_team, player):
         """When a team makes a pick in the draft,
