@@ -1,5 +1,3 @@
-from enums import LeagueCategory, Position
-
 class LeagueSettings:
 
     def __init__(self, num_teams, categories, playable_per_position, bench_size):
@@ -16,26 +14,6 @@ class LeagueSettings:
         self.playable_per_position = playable_per_position
         self.bench_size = bench_size
 
-YLeagueSettings = LeagueSettings(
-    num_teams=12,
-    categories=[
-        LeagueCategory.GOAL,
-        LeagueCategory.ASSIST,
-        LeagueCategory.PLUS_MINUS,
-        LeagueCategory.PENALTY_MINUTES,
-        LeagueCategory.POWER_PLAY_POINT,
-        LeagueCategory.SHOT,
-        LeagueCategory.WIN,
-        LeagueCategory.GOALS_AGAINST_AVERAGE,
-        LeagueCategory.SAVE_PERCENTAGE,
-        LeagueCategory.SHUT_OUT,
-    ],
-    playable_per_position=[
-        (Position.CENTER, 2),
-        (Position.LEFT_WING, 2),
-        (Position.RIGHT_WING, 2),
-        (Position.DEFENSEMEN, 4),
-        (Position.GOALIE, 2),
-    ],
-    bench_size=4
-)
+    def get_number_of_players(self):
+        return (sum([n for _, n in self.playable_per_position]) +
+                self.bench_size)
