@@ -4,8 +4,9 @@ from draft_sim import simulate_draft
 from enums import LeagueCategory, Position
 from league import LeagueSettings
 from roto_importer import create_players_from_projections
-from strategies.random_strategy import RandomPickStrategy
+from strategies.additional_strategy import AdditionalValueStrategy
 from strategies.points_heavy import PointsHeavyStrategy
+from strategies.random_strategy import RandomPickStrategy
 from team import Team
 
 NUM_WEEKS = 27
@@ -38,7 +39,7 @@ Y_LEAGUE_SETTINGS = LeagueSettings(
 def init_teams(players, league_settings):
     """Returns a list of teams (initialized Strategy objects)."""
     teams = []
-    strategy_types = [PointsHeavyStrategy, RandomPickStrategy]
+    strategy_types = [PointsHeavyStrategy, RandomPickStrategy, AdditionalValueStrategy]
     for id in xrange(league_settings.num_teams):
         strategy_type = choice(strategy_types)
         teams.append(Team(id, strategy_type(id, players, league_settings)))
@@ -84,4 +85,6 @@ players = create_players_from_projections()
 teams = init_teams(players, league_settings)
 teams_map = {team.id : team for team in teams}
 simulate_draft(teams, players, league_settings)
+for team in teams:
+    print team, team.roster
 weekly_matchups = set_league_schedule(teams_map.keys())
