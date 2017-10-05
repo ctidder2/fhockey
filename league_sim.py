@@ -76,10 +76,6 @@ def set_league_schedule(team_ids):
         weekly_matchups.extend(rr)
     return weekly_matchups[:NUM_WEEKS]
 
-def sim_week():
-    # TODO
-    pass
-
 league_settings = Y_LEAGUE_SETTINGS
 players = create_players_from_projections()
 teams = init_teams(players, league_settings)
@@ -87,4 +83,40 @@ teams_map = {team.id : team for team in teams}
 simulate_draft(teams, players, league_settings)
 for team in teams:
     print team, team.roster
+
+def team_score(team, categories, num_games=3):
+    for player in team.roster:
+        player.simulate_games()
+
+def sim_matchup(team_1_id, team_2_id):
+    scoreboard = {
+        team_1_id: [0,0,0],
+        team_2_id: [0,0,0],
+    }
+
+    team_1_score = team_score(team_1_id, league_settings.categories)
+    team_2_score = team_score(team_2_id, league_settings.categories)
+
+    for cat in league_settings.categories:
+        if team_1_score[cat] == team_2_score[cat]:
+            scoreboard[team_1_id][2] += 1
+            scoreboard[team_2_id][2] += 1
+        elif (team_1_score > team_2_score and
+            cat != LeagueCategory.GOALS_AGAINST_AVERAGE):
+            scoreboard[team_1_id][0] += 1
+            scoreboard[team_2_id][1] += 1
+        else:
+            scoreboard[team_1_id][1] += 1
+            scoreboard[team_2_id][0] += 1
+
+
+def sim_week(matchups):
+    scores = []
+    for matchup in matchups:
+        scores.append(sim_matchup(matchup[0], matchup[1]))
+
+
 weekly_matchups = set_league_schedule(teams_map.keys())
+weekly_results = []
+for week in weekly_matchups:
+    weekly_results.append(sim_week(week))

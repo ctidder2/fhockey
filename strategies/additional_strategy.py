@@ -1,4 +1,4 @@
-from enums import LeagueCategory, Position
+from enums import LeagueCategory, GOALIE_CATEGORIES, Position
 from strategies.strategy import Strategy
 from collections import defaultdict
 from random import sample
@@ -38,7 +38,7 @@ class AdditionalValueStrategy(Strategy):
         self.players_available.remove(player)
         if team_id == self.team_id:
             for category in self.league_settings.categories:
-                self.category_scores[category] += player.get_category_score(category)
+                self.category_scores[category] += player.get_category_score().get(category, 0.0)
 
     def pick(self, players_remaining):
         player_to_pick = sample(players_remaining, 1)[0]
@@ -60,7 +60,7 @@ class AdditionalValueStrategy(Strategy):
         score = self.category_scores[category]
         maximum = self.category_max_scores[category]
 
-        new_score = score + float(player.get_category_score(category))
+        new_score = score + float(player.get_category_score().get(category, 0.0))
         if new_score > maximum:
             new_score = maximum
 
@@ -72,19 +72,17 @@ class AdditionalValueStrategy(Strategy):
 
     def compute_category_max_scores(self):
         category_max_scores = defaultdict(float)
+        player_to_score_cats = {player: player.get_category_score() for player in self.players_available}
         for category in self.league_settings.categories:
             max_num_players = 0
-            is_goalie_category = category in [LeagueCategory.WIN,
-                                              LeagueCategory.SHUT_OUT,
-                                              LeagueCategory.SAVE_PERCENTAGE,
-                                              LeagueCategory.GOALS_AGAINST_AVERAGE]
+            is_goalie_category = category in GOALIE_CATEGORIES
             for position, count in self.league_settings.playable_per_position:
                 if position == Position.GOALIE and is_goalie_category:
                     max_num_players += count
                 elif position != Position.GOALIE and not is_goalie_category:
                     max_num_players += count
 
-            scores = [player.get_category_score(category) for player in self.players_available]
+            scores = [player_to_score_cats[player].get(category, 0.0) for player in self.players_available]
             scores.sort(reverse=True)
             scores = scores[:max_num_players*self.league_settings.num_teams]
             category_max_scores[category] = sum(scores)*ceiling_weight/self.league_settings.num_teams

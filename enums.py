@@ -11,6 +11,12 @@ class LeagueCategory:
     SAVE_PERCENTAGE = 8
     SHUT_OUT = 9
 
+GOALIE_CATEGORIES = frozenset([
+    LeagueCategory.WIN,
+    LeagueCategory.SHUT_OUT,
+    LeagueCategory.SAVE_PERCENTAGE,
+    LeagueCategory.GOALS_AGAINST_AVERAGE])
+
 class ImportCategory:
     """Categories found in raw data."""
     GOAL = 0
