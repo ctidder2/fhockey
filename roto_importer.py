@@ -48,10 +48,10 @@ def create_players_from_projections(f='projections.csv'):
 
             player.team = row[1]
             player.positions.append(_pos_str_to_pos_enum[row[2]])
-            player.games_played = row[3]
+            player.games_played = float(row[3])
 
             for pos, cat in _row_pos_to_skater_cat.iteritems():
-                player.stats[cat] = row[pos]
+                player.stats[cat] = float(row[pos])
 
             players.append(player)
     return players
